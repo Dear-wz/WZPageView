@@ -64,9 +64,9 @@
 		63CEACDB391A4AE84CD8BF4799A4CB74 /* Pods-WZPageView_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WZPageView_Tests.modulemap"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		7FD00BBA790F71CACDF5E397D0BBF11F /* Pods-WZPageView_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WZPageView_Tests-dummy.m"; sourceTree = "<group>"; };
-		86143057E38C63A408A6EE2E2F92E453 /* WZPageView.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = WZPageView.podspec; sourceTree = "<group>"; };
 		89629911B6AF2589AD6AFA2AC4C2EC65 /* WZCollectionViewLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WZCollectionViewLayout.h; path = WZPageView/Classes/WZCollectionViewLayout.h; sourceTree = "<group>"; };
 		8E54F8D041BC46EA1219722C9BA91663 /* WZPageView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WZPageView-umbrella.h"; sourceTree = "<group>"; };
+		9109A504212FF83000229FD8 /* LWJPageView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LWJPageView.podspec; sourceTree = "<group>"; };
 		92DC2599C5E43A7D5232119CCBAE46A9 /* WZPageView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WZPageView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A0C5B7E3A01E667EA93C38150E763BCC /* Pods-WZPageView_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WZPageView_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 			children = (
 				AE55614C6017FAE15776D75DDFC9CF80 /* LICENSE */,
 				CB32E38F381221F8B4B7B85CF72B0DB2 /* README.md */,
-				86143057E38C63A408A6EE2E2F92E453 /* WZPageView.podspec */,
+				9109A504212FF83000229FD8 /* LWJPageView.podspec */,
 			);
 			name = Pod;
 			sourceTree = "<group>";
