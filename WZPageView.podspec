@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.description      = 'the Tool for tab'
 
-  s.homepage         = 'https://github.com/w__zeng@163.com/WZPageView'
+  s.homepage         = 'https://github.com/Dear-wz/LWJPageView'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'w__zeng@163.com' => '1151661800@qq.com' }
