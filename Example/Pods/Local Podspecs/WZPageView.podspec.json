@@ -1,0 +1,22 @@
+{
+  "name": "WZPageView",
+  "version": "0.1.0",
+  "summary": "A short description of WZPageView.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/w__zeng@163.com/WZPageView",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "w__zeng@163.com": "1151661800@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/w__zeng@163.com/WZPageView.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "WZPageView/Classes/**/*"
+}

@@ -1,0 +1,6 @@
+framework module WZPageView {
+  umbrella header "WZPageView-umbrella.h"
+
+  export *
+  module * { export * }
+}

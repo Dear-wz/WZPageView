@@ -1,0 +1,16 @@
+PODS:
+  - WZPageView (0.1.0)
+
+DEPENDENCIES:
+  - WZPageView (from `../`)
+
+EXTERNAL SOURCES:
+  WZPageView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  WZPageView: f575462245472d9a2b2165af8c1698e5270f9a1f
+
+PODFILE CHECKSUM: a35ea700f95cffdf2bab0658aeaf2fe4886dbd2e
+
+COCOAPODS: 1.4.0
