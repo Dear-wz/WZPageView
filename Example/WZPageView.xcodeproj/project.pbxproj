@@ -65,6 +65,7 @@
 		A2E1730D9825FCEA5C5875AB /* Pods-WZPageView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZPageView_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WZPageView_Tests/Pods-WZPageView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C079BF05B0FDCDB9EB96B5A8 /* Pods_WZPageView_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WZPageView_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10B56BA638102E4EDCED43A /* WZPageView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WZPageView.podspec; path = ../WZPageView.podspec; sourceTree = "<group>"; };
+		C10B56BA638102E4EDCED43A /* LWJPageView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LWJPageView.podspec; path = ../LWJPageView.podspec; sourceTree = "<group>"; };
 		D1062543F8BAA1CB4B987B13 /* Pods-WZPageView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZPageView_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WZPageView_Tests/Pods-WZPageView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F4D9915118D83ACC6647814A /* Pods-WZPageView_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZPageView_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-WZPageView_Example/Pods-WZPageView_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,7 +190,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				C10B56BA638102E4EDCED43A /* WZPageView.podspec */,
+				C10B56BA638102E4EDCED43A /* LWJPageView.podspec */,
 				96F4D56962A5C8DD66554396 /* README.md */,
 				A0EB046E72871F2A017345BF /* LICENSE */,
 			);
