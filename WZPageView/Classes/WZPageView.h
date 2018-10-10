@@ -16,4 +16,9 @@
                        style:(WZTitleViewStyle*)style;
 
 - (void)updateTitles:(NSArray<NSString*>*)titles;
+
+//设置标题角标
+- (void)setBadge:(NSInteger)badgeValue atIndex:(NSInteger)index;
+- (void)clearBadgeAtIndex:(NSInteger)index;
+
 @end

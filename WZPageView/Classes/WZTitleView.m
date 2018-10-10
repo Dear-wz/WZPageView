@@ -70,6 +70,10 @@
         
         
         self.moreCoverColor = [UIColor colorWithWhite:0.6 alpha:0.6];
+        
+        self.badgeFont = [UIFont systemFontOfSize:10.f];
+        self.badgeColor = [UIColor whiteColor];
+        self.badgeBackGroundColor = [UIColor redColor];
     }
     return self;
 }
@@ -135,6 +139,7 @@
 @property (nonatomic,assign)NSUInteger currentIndex;
 
 @property (nonatomic,strong)NSMutableArray<UILabel*> *titleLabels;
+@property (nonatomic,strong)NSMutableArray<UILabel*> *badgeLabels;
 
 @property (nonatomic,strong)UIScrollView *scrollView;
 @property (nonatomic,strong)UIView *indicator;
@@ -167,6 +172,28 @@ static NSString * const reuseIdentifier = @"Cell";
         [self setupSubViews];
     }
     return self;
+}
+//设置标题角标
+- (void)setBadge:(NSInteger)badgeValue atIndex:(NSInteger)index{
+    if (index > self.titles.count || index < 0) {
+        return;
+    }
+    UILabel* labBadge = [self.scrollView viewWithTag: 2333 + index];
+    if (!labBadge) {
+        [self createBadgeLabel:index];
+        [self setBadge:badgeValue atIndex:index];
+        return;
+    }else{
+        UILabel* lab = self.titleLabels[index];
+        labBadge.text = [@(badgeValue) stringValue];
+        CGFloat cornerRadius = 7.5;
+        labBadge.layer.cornerRadius = cornerRadius;
+        labBadge.frame = CGRectMake(CGRectGetMaxX(lab.frame) - (self.style.scrollEnable?0:cornerRadius), CGRectGetMidY(lab.frame) - self.style.font.lineHeight * 0.5, 2 * cornerRadius, 2 * cornerRadius);
+    }
+}
+- (void)clearBadgeAtIndex:(NSInteger)index{
+    UILabel* lab = [self.scrollView viewWithTag: 2333 + index];
+    [lab removeFromSuperview];
 }
 #pragma mark -
 -(void)setTitleWithSourceIndex:(NSInteger)sourceIndex targetIndex:(NSInteger)targetIndex progress:(CGFloat)progress{
@@ -430,17 +457,30 @@ static NSString * const reuseIdentifier = @"Cell";
         lab.font = self.style.font;
         lab.userInteractionEnabled = YES;
         [lab addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(titleClick:)]];
-        
         [self.titleLabels addObject:lab];
         [self.scrollView addSubview:lab];
     }];
 }
+
+- (void)createBadgeLabel:(NSUInteger)index{
+    UILabel* badge = [[UILabel alloc]init];
+    badge.tag = index + 2333;
+    badge.textAlignment = NSTextAlignmentCenter;
+    badge.font = self.style.badgeFont;
+    badge.textColor = self.style.badgeColor;
+    badge.backgroundColor = self.style.badgeBackGroundColor;
+    badge.layer.masksToBounds = YES;
+    [self.scrollView insertSubview:badge belowSubview:self.titleLabels[index]];
+
+}
+
 -(void)setupLayoutTitleLabels{
    __block CGFloat titleX = 0;
    __block CGFloat titleW = 0;
     CGFloat titleY = 0;
     CGFloat titleH = self.bounds.size.height;
     NSUInteger count = self.titleLabels.count;
+    
     
     for (NSUInteger idx = 0; idx < count; idx++) {
         UILabel* obj = self.titleLabels[idx];
@@ -458,7 +498,6 @@ static NSString * const reuseIdentifier = @"Cell";
             titleX = titleW * idx;
         }
         obj.frame = CGRectMake(titleX, titleY, titleW, titleH);
-        
         //放大
         if (idx == 0) {
             CGFloat scale = self.style.needScale ? self.style.scaleRange : 1.0;
@@ -478,6 +517,12 @@ static NSString * const reuseIdentifier = @"Cell";
         _titleLabels = [NSMutableArray array];
     }
     return _titleLabels;
+}
+- (NSMutableArray<UILabel *> *)badgeLabels{
+    if (!_badgeLabels) {
+        _badgeLabels = [NSMutableArray array];
+    }
+    return _badgeLabels;
 }
 -(UIScrollView *)scrollView{
     if (!_scrollView) {

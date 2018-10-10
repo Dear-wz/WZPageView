@@ -48,7 +48,13 @@
 - (void)updateTitles:(NSArray<NSString*>*)titles{
     [self.titleView updateTitles:titles];
 }
-
+//设置标题角标
+- (void)setBadge:(NSInteger)badgeValue atIndex:(NSInteger)index{
+    [self.titleView setBadge:badgeValue atIndex:index];
+}
+- (void)clearBadgeAtIndex:(NSInteger)index{
+    [self.titleView clearBadgeAtIndex:index];
+}
 #pragma mark - event
 #pragma mark - delegate
 #pragma mark ----------- WZTitleViewDelegate

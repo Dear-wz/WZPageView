@@ -29,9 +29,9 @@
     WZTitleViewStyle* style = [[WZTitleViewStyle alloc]init];
     style.scrollEnable = YES;
     style.showSeparator = YES;
-    //    style.showCover = YES;
     style.showIndicator = YES;
     style.showMore = YES;
+    style.titleSpace = 30;
 
     //    CGRect sframe = CGRectMake(0, 20, self.view.bounds.size.width, 40);
     //    WZTitleView* titleView = [[WZTitleView alloc]initWithFrame:sframe titles:titles style:style];
@@ -40,7 +40,10 @@
     CGRect sframe2 = CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.height - 20);
     WZPageView* pageView = [[WZPageView alloc]initWithFrame:sframe2 titles:titles childs:childs rootControl:self style:style];
     [self.view addSubview:pageView];
-    
+    [pageView setBadge:99 atIndex:0];
+    [pageView setBadge:3 atIndex:1];
+    [pageView clearBadgeAtIndex:1];
+
 }
 
 - (void)didReceiveMemoryWarning

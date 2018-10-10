@@ -39,6 +39,11 @@
 @property (nonatomic ,strong) UICollectionViewFlowLayout* layout; // 详情区域布局
 @property (nonatomic ,strong) UIColor* moreCoverColor;//详情区域遮罩颜色  [默认 0.6 ,0.6】
 
+//
+@property (nonatomic ,strong) UIColor* badgeColor;//角标颜色   【默认 whiltColor】
+@property (nonatomic ,strong) UIColor* badgeBackGroundColor; //角标背景色颜色   【默认 redColor】
+@property (nonatomic ,strong) UIFont*  badgeFont;// 角标字体    【默认 系统10号】
+
 //更新 =>详情区域高度
 - (void)updateExpectedHeight:(NSUInteger)itemCount;
 
@@ -63,4 +68,7 @@
 -(void)contentViewDidEndScroll;
 
 - (void)updateTitles:(NSArray<NSString*>*)titles;
+//设置标题角标
+- (void)setBadge:(NSInteger)badgeValue atIndex:(NSInteger)index;
+- (void)clearBadgeAtIndex:(NSInteger)index;
 @end
