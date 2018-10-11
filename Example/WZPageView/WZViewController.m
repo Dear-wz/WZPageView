@@ -18,7 +18,8 @@
 {
     [super viewDidLoad];
     
-    NSArray* titles = @[@"网游",@"单机",@"手游",@"娱乐",@"颜值",@"新秀",@"推荐",@"网游",@"单机",@"手游",@"娱乐",@"颜值",@"新秀",@"推荐"];
+//    NSArray* titles = @[@"网游",@"单机",@"手游",@"娱乐",@"颜值",@"新秀",@"推荐",@"网游",@"单机",@"手游",@"娱乐",@"颜值",@"新秀",@"推荐"];
+    NSArray* titles = @[@"网游",@"单机",@"手游",@"娱乐"];
     NSMutableArray* childs = [NSMutableArray array];
     for (NSString* title in titles) {
         UIViewController* child = [UIViewController new];
@@ -27,7 +28,7 @@
     }
 
     WZTitleViewStyle* style = [[WZTitleViewStyle alloc]init];
-    style.scrollEnable = YES;
+    style.scrollEnable = NO;
     style.showSeparator = YES;
     style.showIndicator = YES;
     style.showMore = YES;

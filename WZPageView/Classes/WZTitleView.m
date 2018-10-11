@@ -184,11 +184,11 @@ static NSString * const reuseIdentifier = @"Cell";
         [self setBadge:badgeValue atIndex:index];
         return;
     }else{
-        UILabel* lab = self.titleLabels[index];
+        CGPoint point = [self getlabelTextRightTop:index];
         labBadge.text = [@(badgeValue) stringValue];
         CGFloat cornerRadius = 7.5;
         labBadge.layer.cornerRadius = cornerRadius;
-        labBadge.frame = CGRectMake(CGRectGetMaxX(lab.frame) - (self.style.scrollEnable?0:cornerRadius), CGRectGetMidY(lab.frame) - self.style.font.lineHeight * 0.5, 2 * cornerRadius, 2 * cornerRadius);
+        labBadge.frame = CGRectMake(point.x, point.y - cornerRadius, 2 * cornerRadius, 2 * cornerRadius);
     }
 }
 - (void)clearBadgeAtIndex:(NSInteger)index{
@@ -394,6 +394,13 @@ static NSString * const reuseIdentifier = @"Cell";
         [self refreshShowDetailSelectedIndex:self.currentIndex];
     }
 }
+- (CGPoint)getlabelTextRightTop:(NSUInteger)index{
+    UILabel* lab = self.titleLabels[index];
+    CGRect rect = [lab.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 0) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:lab.font} context:nil];
+    CGFloat x = CGRectGetMaxX(lab.frame) - 0.5 * (CGRectGetWidth(lab.frame) - rect.size.width);
+    CGFloat y = 0.5 * (CGRectGetHeight(lab.frame) - rect.size.height);
+    return CGPointMake(x, y);
+}
 #pragma mark - setup
 - (void)setup{
     self.currentIndex = 0;
@@ -494,7 +501,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 titleX = CGRectGetMaxX(lab.frame) + self.style.titleSpace;
             }
         }else{
-            titleW = self.bounds.size.width / count;
+            titleW = (self.bounds.size.width - (self.style.showMore?self.style.moreWidth:0)) / count;
             titleX = titleW * idx;
         }
         obj.frame = CGRectMake(titleX, titleY, titleW, titleH);
