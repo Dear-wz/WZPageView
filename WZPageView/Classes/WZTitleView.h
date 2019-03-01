@@ -15,6 +15,7 @@
 @property (nonatomic ,strong) UIFont* font;// Title字体    【默认 系统14号】
 @property (nonatomic ,assign) CGFloat titleSpace;// 滚动Title的字体间距  【默认 20】
 @property (nonatomic ,assign) CGFloat titleHeight;// title的高度  【默认 44】
+@property (nonatomic ,strong) UIColor* titleViewBackgroundColor;
 //
 @property (nonatomic ,assign) BOOL showIndicator;// 是否显示Title指示器
 @property (nonatomic ,strong) UIColor* indicatorColor;// Title指示器的颜色 【默认 orange】
@@ -38,7 +39,9 @@
 @property (nonatomic ,assign,readonly) CGFloat expectedHeight; // 详情区域高度
 @property (nonatomic ,strong) UICollectionViewFlowLayout* layout; // 详情区域布局
 @property (nonatomic ,strong) UIColor* moreCoverColor;//详情区域遮罩颜色  [默认 0.6 ,0.6】
-
+//
+@property (nonatomic ,strong) UIColor *contentViewBackgroundColor;
+@property (nonatomic ,assign,getter=isContentScrollEnable) BOOL contentScrollEnable;// contentView是否可以滚动
 //
 @property (nonatomic ,strong) UIColor* badgeColor;//角标颜色   【默认 whiltColor】
 @property (nonatomic ,strong) UIColor* badgeBackGroundColor; //角标背景色颜色   【默认 redColor】
@@ -62,10 +65,11 @@
 @property (nonatomic ,weak) id <WZTitleViewDelegate> delegate;
 -(instancetype)initWithFrame:(CGRect)frame
                       titles:(NSArray<NSString*>*)titles
-                       style:(WZTitleViewStyle*)style;
+                       style:(WZTitleViewStyle*)style
+                currentIndex:(NSUInteger)currentIndex;
 
 -(void)setTitleWithSourceIndex:(NSInteger)sourceIndex targetIndex:(NSInteger)targetIndex progress:(CGFloat)progress;
--(void)contentViewDidEndScroll;
+-(void)setTitleAtIndex:(NSInteger)atIndex;
 
 - (void)updateTitles:(NSArray<NSString*>*)titles;
 //设置标题角标

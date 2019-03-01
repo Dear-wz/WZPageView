@@ -7,6 +7,7 @@
 //
 
 #import "WZPageView.h"
+//#import "WZTitleViewStyle.h"
 #import "WZTitleView.h"
 #import "WZContainerView.h"
 @interface WZPageView()<WZTitleViewDelegate,WZContainerViewDelegate>
@@ -36,11 +37,15 @@
     return self;
 }
 - (void)setupSubViews{
-    self.titleView = [[WZTitleView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.style.titleHeight) titles:self.titles style:self.style];
+    
+    CGRect frame1 = CGRectMake(0, 0, self.bounds.size.width, self.style.titleHeight);
+    CGRect frame2 = CGRectMake(0, self.style.titleHeight, self.bounds.size.width, self.bounds.size.height -self.style.titleHeight);
+
+    self.titleView = [[WZTitleView alloc]initWithFrame:frame1 titles:self.titles style:self.style currentIndex:0];
     self.titleView.delegate = self;
     [self addSubview: self.titleView];
     
-    self.contentView = [[WZContainerView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleView.frame), CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - CGRectGetHeight(self.titleView.bounds)) childs:self.childs rootControl:self.rootControl];
+    self.contentView = [[WZContainerView alloc]initWithFrame:frame2 childs:self.childs rootControl:self.rootControl style:self.style currentIndex:0];
     self.contentView.delegate = self;
     [self insertSubview:self.contentView belowSubview:self.titleView];
 }
@@ -66,9 +71,8 @@
 - (void)contentView:(WZContainerView *)contentView sourceIndex:(NSInteger)sourceIndex targetIndex:(NSInteger)targetIndex progress:(CGFloat)progress{
     [self.titleView setTitleWithSourceIndex:sourceIndex targetIndex:targetIndex progress:progress];
 }
-
-- (void)contentViewEndScroll:(WZContainerView *)contentView{
-    [self.titleView contentViewDidEndScroll];
+- (void)contentView:(WZContainerView *)contentView atIndex:(NSInteger)atIndex{
+    [self.titleView setTitleAtIndex:atIndex];
 }
 #pragma mark - private
 #pragma mark - setup

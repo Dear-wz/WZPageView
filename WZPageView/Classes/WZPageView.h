@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "WZTitleView.h"
+//#import "WZTitleViewStyle.h"
+@class WZTitleViewStyle;
 @interface WZPageView : UIView
 -(instancetype)initWithFrame:(CGRect)frame
                       titles:(NSArray<NSString*>*)titles

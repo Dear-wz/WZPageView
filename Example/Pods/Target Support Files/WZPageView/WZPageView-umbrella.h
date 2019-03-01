@@ -15,6 +15,7 @@
 #import "WZContainerView.h"
 #import "WZPageView.h"
 #import "WZTitleView.h"
+//#import "WZTitleViewStyle.h"
 
 FOUNDATION_EXPORT double WZPageViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char WZPageViewVersionString[];

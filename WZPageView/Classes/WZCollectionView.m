@@ -7,6 +7,7 @@
 //
 
 #import "WZCollectionView.h"
+//#import "WZTitleViewStyle.h"
 @interface WZCollectionView()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic,strong)NSArray *titles;
 @property (nonatomic,assign)BOOL isTitleTop;
@@ -47,7 +48,7 @@
 }
 - (void)setupSubViews{
     CGFloat titleY = self.isTitleTop ? 0 : self.bounds.size.height - self.style.titleHeight;
-    WZTitleView* titleView = [[WZTitleView alloc]initWithFrame:CGRectMake(0, titleY, CGRectGetWidth(self.bounds), self.style.titleHeight) titles:self.titles style:self.style];
+    WZTitleView* titleView = [[WZTitleView alloc]initWithFrame:CGRectMake(0, titleY, CGRectGetWidth(self.bounds), self.style.titleHeight) titles:self.titles style:self.style currentIndex:0];
     titleView.backgroundColor = [UIColor brownColor];
     [self addSubview: titleView];
     self.titleView = titleView;

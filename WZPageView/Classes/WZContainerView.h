@@ -11,14 +11,17 @@
 @class WZContainerView;
 @protocol WZContainerViewDelegate <NSObject>
 - (void)contentView:(WZContainerView *)contentView sourceIndex:(NSInteger)sourceIndex targetIndex:(NSInteger)targetIndex progress:(CGFloat)progress;
+- (void)contentView:(WZContainerView *)contentView atIndex:(NSInteger)atIndex;
 @optional
-- (void)contentViewEndScroll:(WZContainerView *)contentView;
+//- (void)contentViewEndScroll:(WZContainerView *)contentView;
 @end
 @class WZTitleViewStyle;
 @interface WZContainerView : UIView
 @property (nonatomic ,weak) id <WZContainerViewDelegate> delegate;
 -(instancetype)initWithFrame:(CGRect)frame
                       childs:(NSArray<UIViewController*>*)childs
-                 rootControl:(UIViewController*)rootControl;
+                 rootControl:(UIViewController*)rootControl
+                       style:(WZTitleViewStyle*)style
+                currentIndex:(NSUInteger)currentIndex;
 -(void)setCurrentIndex:(NSUInteger)currentIndex;
 @end

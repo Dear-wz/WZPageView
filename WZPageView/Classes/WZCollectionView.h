@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "WZCollectionViewLayout.h"
 #import "WZTitleView.h"
-
 @class WZCollectionView;
 @protocol WZCollectionViewDataSource<NSObject>
 @required

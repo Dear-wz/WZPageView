@@ -7,34 +7,66 @@
 //
 
 #import "WZContainerView.h"
+#import "WZTitleView.h"
+@interface WZContainerViewFlowLayout : UICollectionViewFlowLayout
+//通过设置offset的值，达到初始化的pageView默认显示某一页的效果，默认显示第一页
+@property (nonatomic ,assign) CGFloat offset;
+@end
+@implementation WZContainerViewFlowLayout
+
+-(void)prepareLayout{
+    [super prepareLayout];
+    if (self.offset) {
+        self.collectionView.contentOffset = CGPointMake(self.offset, 0);
+    }else{
+        self.collectionView.contentOffset = CGPointZero;
+    }
+}
+
+@end
+
 NSString * pageContentIdentifier = @"pageContentIdentifier";
+
 @interface WZContainerView()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic,strong)NSArray *childs;
 @property (nonatomic,strong)UIViewController *rootControl;
 @property (nonatomic,strong)UICollectionView *collection;
+@property (nonatomic,assign) NSUInteger startIndex;
 @property (nonatomic,assign)CGFloat startOffsetX;
 @property (nonatomic,assign)BOOL isForbidScrollDelegate;
-
+@property (nonatomic,strong) WZTitleViewStyle *style;
 @end
 @implementation WZContainerView
 
 -(instancetype)initWithFrame:(CGRect)frame
                       childs:(NSArray<UIViewController*>*)childs
-                 rootControl:(UIViewController*)rootControl{
+                 rootControl:(UIViewController*)rootControl
+                       style:(WZTitleViewStyle*)style
+                currentIndex:(NSUInteger)currentIndex{
     if (self = [super initWithFrame:frame]) {
         self.childs = childs;
         self.rootControl = rootControl;
-        [self setup];
+        self.style = style;
+        self.startIndex = currentIndex;
         [self setupSubViews];
     }
     return self;
 }
 -(void)setCurrentIndex:(NSUInteger)currentIndex{
     self.isForbidScrollDelegate = YES;
-    CGFloat offsetX = currentIndex * self.collection.frame.size.width;
-    [self.collection setContentOffset:CGPointMake(offsetX, 0) animated:NO];
+    if (currentIndex > self.childs.count - 1) {
+        return;
+    }
+    NSIndexPath*indexPath = [NSIndexPath indexPathForItem:currentIndex inSection:0];
+    [self.collection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
 }
-
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    self.collection.frame = self.bounds;
+    WZContainerViewFlowLayout* layout = (WZContainerViewFlowLayout*)self.collection.collectionViewLayout;
+    layout.itemSize = self.bounds.size;
+    layout.offset = self.startIndex * self.bounds.size.width;
+}
 
 #pragma mark - life
 #pragma mark - event
@@ -59,99 +91,93 @@ NSString * pageContentIdentifier = @"pageContentIdentifier";
     self.startOffsetX = scrollView.contentOffset.x;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    // 0 点击事件
-    if (self.isForbidScrollDelegate) {
-        return;
-    }
-    // 1.定义获取需要的数据
-    NSInteger sourceIndex = 0;
-    NSInteger targetIndex = 0;
-    CGFloat progress = 0.0;
-    
-    // 2.判断是左滑还是右滑
-    CGFloat currentOffsetX = scrollView.contentOffset.x;
-    CGFloat scrollViewW = scrollView.bounds.size.width;
-    // 左滑
-    if (currentOffsetX < self.startOffsetX) {
-        // 1.计算progress
-        progress = currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW);
-        
-        // 2.计算sourceIndex
-        sourceIndex = floor(currentOffsetX / scrollViewW);
-        
-        // 3.计算targetIndex
-        targetIndex = sourceIndex + 1;
-        if (targetIndex >= self.childs.count) {
-            targetIndex = self.childs.count - 1;
-        }
-        
-        // 4.如果完全划过去
-        if (currentOffsetX - self.startOffsetX == scrollViewW) {
-            progress = 1;
-            targetIndex = sourceIndex;
-        }
-    }else{
-        // 1.计算progress
-        progress = 1 - (currentOffsetX / scrollViewW - floor(currentOffsetX / scrollViewW));
-        
-        // 2.计算targetIndex
-        targetIndex = floor(currentOffsetX / scrollViewW);
-        
-        // 3.计算sourceIndex
-        sourceIndex = targetIndex + 1;
-        if (sourceIndex >= self.childs.count) {
-            sourceIndex = self.childs.count - 1;
-        }
-    }
-   // 3.将progress/sourceIndex/targetIndex传递给titleView
-    if (self.delegate && [self.delegate respondsToSelector:@selector(contentView:sourceIndex:targetIndex:progress:)]) {
-        [self.delegate contentView:self sourceIndex:sourceIndex targetIndex:targetIndex progress:progress];
-    }
+    [self updateUI:scrollView];
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (!decelerate) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(contentViewEndScroll:)]) {
-            [self.delegate contentViewEndScroll:self];
-        }
+        [self collectionViewDidEndScroll:scrollView];
     }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(contentViewEndScroll:)]) {
-        [self.delegate contentViewEndScroll:self];
+    [self collectionViewDidEndScroll:scrollView];
+}
+- (void)collectionViewDidEndScroll:(UIScrollView *)scrollView{
+    NSUInteger index =  (scrollView.contentOffset.x / scrollView.bounds.size.width);
+//    UIViewController* child = self.childs[index];
+//    if ([child conformsToProtocol:@protocol(LWJPageViewProtocol)] ) {
+//        if ([child respondsToSelector:@selector(contentViewDidEndScroll)]) {
+//            [child performSelector:@selector(contentViewDidEndScroll)];
+//        }
+//    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(contentView:atIndex:)]) {
+        [self.delegate contentView:self atIndex:index];
     }
 }
-#pragma mark - setup
-- (void)setup{
-    self.isForbidScrollDelegate = NO;
-    self.startOffsetX = 0.0;
+
+- (void)updateUI:(UIScrollView *)scrollView{
+    if (self.isForbidScrollDelegate) {
+        return;
+    }
+    CGFloat progress = 0;
+    NSUInteger targetIndex = 0;
+    NSUInteger sourceIndex = 0;
+    
+    progress = fmod(scrollView.contentOffset.x, scrollView.bounds.size.width) / scrollView.bounds.size.width;
+    if (progress == 0) {
+        return;
+    }
+    // + 0.01 确保不会被整除
+    NSUInteger index =  (floor(scrollView.contentOffset.x / (scrollView.bounds.size.width + 0.01)));
+    
+    if (scrollView.contentOffset.x > self.startOffsetX) { // 左滑动
+        sourceIndex = index;
+        targetIndex = index + 1;
+        if (targetIndex > self.childs.count - 1) {
+            return;
+        }
+    }else{
+        sourceIndex = index + 1;
+        targetIndex = index;
+        progress = 1 - progress;
+        if (targetIndex < 0) {
+            return;
+        }
+    }
+    if (progress > 0.998){
+        progress = 1;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(contentView:sourceIndex:targetIndex:progress:)]) {
+        [self.delegate contentView:self sourceIndex:sourceIndex targetIndex:targetIndex progress:progress];
+    }
+    
 }
+#pragma mark - setup
 - (void)setupSubViews{
     for (UIViewController* childvc in self.childs) {
         [self.rootControl addChildViewController:childvc];
     }
-    [self addSubview:self.collection];
-}
-#pragma mark - setter & getter
-- (UICollectionView *)collection{
-    if (!_collection) {
-        UICollectionViewFlowLayout* layout = [[UICollectionViewFlowLayout alloc]init];
+    self.collection = ({
+        WZContainerViewFlowLayout* layout = [[WZContainerViewFlowLayout alloc]init];
         layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        layout.itemSize = self.bounds.size;
         
-        _collection = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:layout];
-        _collection.scrollsToTop = YES;
-        _collection.bounces = NO;
-        _collection.showsHorizontalScrollIndicator = NO;
-        _collection.backgroundColor = [UIColor clearColor];
-        _collection.pagingEnabled = YES;
-        _collection.delegate = self;
-        _collection.dataSource = self;
-        _collection.showsHorizontalScrollIndicator = NO;
-        [_collection registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:pageContentIdentifier];
-    }
-    return _collection;
+        UICollectionView* collection = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+        collection.showsHorizontalScrollIndicator = NO;
+        collection.pagingEnabled = YES;
+        collection.scrollsToTop = NO;
+        collection.dataSource = self;
+        collection.delegate = self;
+        collection.bounces = NO;
+        if (@available(iOS 10,*)) {
+            collection.prefetchingEnabled = NO;
+        }
+        [collection registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:pageContentIdentifier];
+        collection;
+    });
+    
+    [self addSubview:self.collection];
+    self.collection.backgroundColor = self.style.contentViewBackgroundColor;
+    self.collection.scrollEnabled = self.style.isContentScrollEnable;
 }
-#pragma mark - networking
 @end
